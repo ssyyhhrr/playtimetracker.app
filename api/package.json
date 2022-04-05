@@ -1,0 +1,28 @@
+{
+  "name": "playtimetracker.app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ssyyhhrr/playtimetracker.app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ssyyhhrr/playtimetracker.app/issues"
+  },
+  "homepage": "https://github.com/ssyyhhrr/playtimetracker.app#readme",
+  "dependencies": {
+    "axios": "^0.26.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "moment": "^2.29.2",
+    "morgan": "^1.10.0",
+    "sqlite3": "^5.0.2"
+  }
+}
