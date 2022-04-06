@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body onload="onload()">
+    <a href="/docs">Docs</a>
+    <p>GitHub Username:</p>
+    <input type="text" id="github" name="github"><br><br>
+    <p>Duration (s):</p>
+    <input type="text" id="githubTime" name="githubTime"><br><br>
+    <button onclick="set('github', document.getElementById('github').value, document.getElementById('githubTime').value)">Submit</button>
+    <p id="githubResponse"></p>
+    <script>
+        function onload() {
+            Object.keys(localStorage).forEach((key) => {
+                let arr = localStorage.getItem(key).split(",")
+                if (arr.length == 2) {
+                    fetch(`<%= url %>/${key}/${arr[0]}/${arr[1]}`)
+                    .then(async response => {
+                        document.getElementById(key + "Response").innerText = JSON.stringify(await response.json())
+                    })
+                }
+            });
+        }
+
+        function set(key, name, duration) {
+            fetch(`<%= url %>/${key}/${name}/${duration}`)
+            .then(async response => {
+                document.getElementById(key + "Response").innerText = JSON.stringify(await response.json())
+                window.localStorage.setItem(key, [name, duration]) 
+            })
+        }
+    </script>
+</body>
+</html>
