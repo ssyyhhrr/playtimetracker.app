@@ -37,6 +37,20 @@ app.get("/github/:username/:time", (req, res) => {
     })
 })
 
+app.get("/github/:username/:time/:type", (req, res) => {
+    axios.get(`https://api.github.com/users/${req.params.username}/events`, {
+        headers: {
+            "Authorization": "Bearer " + process.env.GITHUB_AUTHORIZATION
+        }
+    }).then(response => {
+        let obj = { total: 0 }
+        response.data.filter(x => moment(x.created_at).unix() > moment().unix() - req.params.time && x.type.toLowerCase().replace("event", "") == req.params.type.toLowerCase()).forEach(event => {
+            obj["total"]++
+        })
+        return res.send(obj)
+    })
+})
+
 // start server
 app.listen(config.api_port, () => {
     console.log(`Server listening on port ${config.api_port}!`)

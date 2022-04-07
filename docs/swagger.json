@@ -8,7 +8,7 @@
             "email": "hello@sy.hr"
         }
     },
-    "host": "https://api.playtimetracker.app",
+    "host": "api.playtimetracker.app",
     "basePath": "/",
     "tags": [
         {
@@ -20,13 +20,17 @@
             }
         }
     ],
+    "schemes": [
+        "https",
+        "http"
+    ],
     "paths": {
         "/github/{username}/{duration}": {
             "get": {
                 "tags": [
                     "github"
                 ],
-                "summary": "Retrieve all GitHub events produced by a user",
+                "summary": "Retrieve count of GitHub events produced by a user",
                 "description": "",
                 "operationId": "",
                 "consumes": [
@@ -61,25 +65,63 @@
                             }
                         }
                     }
-                },
-                "security": [
+                }
+            }
+        },
+        "/github/{username}/{duration}/{type}": {
+            "get": {
+                "tags": [
+                    "github"
+                ],
+                "summary": "Retrieve count of GitHub events of a certain type produced by a user",
+                "description": "",
+                "operationId": "",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
                     {
-                        "petstore_auth": [
-                            "write:pets",
-                            "read:pets"
-                        ]
+                        "name": "username",
+                        "in": "path",
+                        "description": "The user to retrieve the events of ",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "duration",
+                        "in": "path",
+                        "description": "The period in seconds to retrieve events from ",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "type",
+                        "in": "path",
+                        "description": "The type of event to retrieve ",
+                        "required": true,
+                        "type": "string"
                     }
-                ]
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/GitHubType"
+                            }
+                        }
+                    }
+                }
             }
         }
     },
     "definitions": {
         "GitHub": {
             "type": "object",
-            "required": [
-                "name",
-                "photoUrls"
-            ],
             "properties": {
                 "total": {
                     "type": "integer",
@@ -102,6 +144,15 @@
                     "format": "int64"
                 },
                 "ForkEvent": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "GitHubType": {
+            "type": "object",
+            "properties": {
+                "total": {
                     "type": "integer",
                     "format": "int64"
                 }
