@@ -22,6 +22,7 @@ app.use(cors())
 
 // github
 app.get("/github/:username/:time", (req, res) => {
+    if (!parseInt(req.params.time)) return res.status(400).end("Invalid duration")
     axios.get(`https://api.github.com/users/${req.params.username}/events`, {
         headers: {
             "Authorization": "Bearer " + process.env.GITHUB_AUTHORIZATION
@@ -34,10 +35,13 @@ app.get("/github/:username/:time", (req, res) => {
             obj["total"]++
         })
         return res.send(obj)
+    }).catch(err => {
+        return res.status(400).end("Invalid username")
     })
 })
 
 app.get("/github/:username/:time/:type", (req, res) => {
+    if (!parseInt(req.params.time)) return res.status(400).end("Invalid duration")
     axios.get(`https://api.github.com/users/${req.params.username}/events`, {
         headers: {
             "Authorization": "Bearer " + process.env.GITHUB_AUTHORIZATION
@@ -48,6 +52,8 @@ app.get("/github/:username/:time/:type", (req, res) => {
             obj["total"]++
         })
         return res.send(obj)
+    }).catch(err => {
+        return res.status(400).end("Invalid username")
     })
 })
 
