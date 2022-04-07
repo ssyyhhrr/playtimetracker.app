@@ -1,6 +1,3 @@
-// local imports
-const config = require("../config.json")
-
 // external imports
 require("dotenv").config()
 const axios = require("axios")
@@ -11,7 +8,7 @@ const cors = require("cors")
 const { Database } = require("sqlite3")
 
 // db
-const db = new Database("../data.db")
+const db = new Database("./data.db")
 
 // express initialisation
 const app = express()
@@ -58,6 +55,7 @@ app.get("/github/:username/:time/:type", (req, res) => {
 })
 
 // start server
-app.listen(config.api_port, () => {
-    console.log(`Server listening on port ${config.api_port}!`)
+const port = 7000
+app.listen(port, () => {
+    console.log(`Server listening on port ${port}!`)
 })
