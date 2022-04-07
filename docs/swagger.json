@@ -1,0 +1,115 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "An API for tracking usage and time spent on various web and desktop applications. Created with Express, Node.js and documentation by Swagger. Accessible via web front-end or REST API endpoints.",
+        "version": "1.0.0",
+        "title": "playtimetracker.app",
+        "contact": {
+            "email": "hello@sy.hr"
+        }
+    },
+    "host": "https://api.playtimetracker.app",
+    "basePath": "/",
+    "tags": [
+        {
+            "name": "github",
+            "description": "Retrieve GitHub events produced by a user",
+            "externalDocs": {
+                "description": "Find out more",
+                "url": "https://playtimetracker.app/"
+            }
+        }
+    ],
+    "paths": {
+        "/github/{username}/{duration}": {
+            "get": {
+                "tags": [
+                    "github"
+                ],
+                "summary": "Retrieve all GitHub events produced by a user",
+                "description": "",
+                "operationId": "",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "description": "The user to retrieve the events of ",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "duration",
+                        "in": "path",
+                        "description": "The period in seconds to retrieve events from ",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/GitHub"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "petstore_auth": [
+                            "write:pets",
+                            "read:pets"
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "definitions": {
+        "GitHub": {
+            "type": "object",
+            "required": [
+                "name",
+                "photoUrls"
+            ],
+            "properties": {
+                "total": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "PushEvent": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "WatchEvent": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "CreateEvent": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "PublicEvent": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "ForkEvent": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        }
+    },
+    "externalDocs": {
+        "description": "Go back home",
+        "url": "https://playtimetracker.app/"
+    }
+}

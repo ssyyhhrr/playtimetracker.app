@@ -7,7 +7,9 @@
     <title>Document</title>
 </head>
 <body onload="onload()">
-    <a href="/docs">Docs</a>
+    <h1>playtimetracker.app</h1>
+    <a href="http://localhost:3000" target="_blank">Docs</a>
+    <a href="https://github.com/ssyyhhrr/playtimetracker.app" target="_blank">GitHub</a>
     <p>GitHub Username:</p>
     <input type="text" id="github" name="github"><br><br>
     <p>Duration (s):</p>
@@ -15,11 +17,13 @@
     <button onclick="set('github', document.getElementById('github').value, document.getElementById('githubTime').value)">Submit</button>
     <p id="githubResponse"></p>
     <script>
+        const url = "http://localhost:4000"
+
         function onload() {
             Object.keys(localStorage).forEach((key) => {
                 let arr = localStorage.getItem(key).split(",")
                 if (arr.length == 2) {
-                    fetch(`<%= url %>/${key}/${arr[0]}/${arr[1]}`)
+                    fetch(`${url}/${key}/${arr[0]}/${arr[1]}`)
                     .then(async response => {
                         document.getElementById(key + "Response").innerText = JSON.stringify(await response.json())
                     })
@@ -28,7 +32,7 @@
         }
 
         function set(key, name, duration) {
-            fetch(`<%= url %>/${key}/${name}/${duration}`)
+            fetch(`${url}/${key}/${name}/${duration}`)
             .then(async response => {
                 document.getElementById(key + "Response").innerText = JSON.stringify(await response.json())
                 window.localStorage.setItem(key, [name, duration]) 

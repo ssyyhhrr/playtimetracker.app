@@ -1,10 +1,12 @@
 // local imports
-const config = require("./config.json")
+const config = require("../config.json")
 
 // external imports
 const express = require("express")
 const morgan = require("morgan")
 const cors = require("cors")
+const swaggerUi = require("swagger-ui-express")
+const swaggerDocument = require("./swagger.json")
 const { Database } = require("sqlite3")
 
 // db
@@ -21,9 +23,8 @@ app.use(cors())
 app.set("views", "views")
 app.set("view engine", "ejs")
 
-app.get("/", (req, res) => {
-    return res.render("index", { url: config.api_url })
-})
+// swagger serve
+app.use("/", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 // start server
 app.listen(config.web_port, () => {
