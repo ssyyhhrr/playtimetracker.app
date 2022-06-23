@@ -17,6 +17,14 @@ app.use(express.json())
 app.use(morgan("combined"))
 app.use(cors())
 
+app.set("views", "views")
+app.set("view engine", "ejs")
+
+// web
+app.get("/", (req, res) => {
+    res.render("index")
+})
+
 // github
 app.get("/github/:username/:time", (req, res) => {
     if (!parseInt(req.params.time)) return res.status(400).end("Invalid duration")
@@ -52,6 +60,15 @@ app.get("/github/:username/:time/:type", (req, res) => {
     }).catch(err => {
         return res.status(400).end("Invalid username")
     })
+})
+
+// steam
+app.get("/steam/:id", (req, res) => {
+    let total = 0
+    axios.get(`https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/?steamid=${req.params.id}&include_appinfo=1&include_played_free_games=1&key=79868CE2F49CAFB8042407530807230B&format=json`).then(response => {
+        response.data.response.games.forEach(game => total += game.playtime_2weeks)
+        res.json({ hours: parseInt(total / 60), minutes: parseInt(total - (parseInt(total / 60) * 60)) })
+    }).catch()
 })
 
 // start server
